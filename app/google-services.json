@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "271245844740",
+    "firebase_url": "https://startrak-38538.firebaseio.com",
+    "project_id": "startrak-38538",
+    "storage_bucket": "startrak-38538.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271245844740:android:cb5a788002b73530f17051",
+        "android_client_info": {
+          "package_name": "com.twistentiger.startrak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271245844740-tojhuqlnpq4qloct6tqp3lj2kqteb9q5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.twistentiger.startrak",
+            "certificate_hash": "9ff12823b83053e8a8c53fed81bbfa4a68f5dba6"
+          }
+        },
+        {
+          "client_id": "271245844740-pd0u6vk0t1dd1u71jj5roftg11b15hpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9_8bhKzDcggiHiuHYOe2WeFyt9foPraM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271245844740-pd0u6vk0t1dd1u71jj5roftg11b15hpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
