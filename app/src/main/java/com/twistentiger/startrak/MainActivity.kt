@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity()
 
             val book = Book(title, author, isbn, genre)
         }
-        TODO("ADD GIT to this project, rewatch video on the git add. Enjoy the day Mr Robin Njobo")
+
     }*/
 
     /**
