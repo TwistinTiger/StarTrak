@@ -1,23 +1,28 @@
 package com.twistentiger.startrak
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class MainActivity : AppCompatActivity()
 {
-    /**
-     * adopted from previous videos, request the data from second activity*/
-    companion object{
-        const val ADD_BOOK_REQUEST: Int = 1
-    }
+    private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val bookStorageRef: CollectionReference = database.collection("The Book")
 
     private lateinit var fab: FloatingActionButton
+    private lateinit var adapter: BookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -32,44 +37,67 @@ class MainActivity : AppCompatActivity()
             this@MainActivity.startActivity(intent)
         })
 
-
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
-        recyclerView.setHasFixedSize(true)
-
-        val adapter = BookAdapter()
-        recyclerView.adapter = adapter
-
+        setUpRecyclerView()
     }
 
-    /**
-     * Add the onActivityResult override method here.
-     * Same as for this method.  got from android architecture components video.
-     */
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    private fun setUpRecyclerView()
     {
-        super.onActivityResult(requestCode, resultCode, data)
+        val query: Query = bookStorageRef.orderBy("title", Query.Direction.ASCENDING)
 
-        if (requestCode == ADD_BOOK_REQUEST && resultCode == Activity.RESULT_OK)
+        val options = FirestoreRecyclerOptions.Builder<Book>()
+            .setQuery(query, Book::class.java)
+            .build()
+
+        adapter = BookAdapter(options)
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.setHasFixedSize(true)
+
+        //for now we use linear layout
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
         {
-            val title = data!!.getStringExtra(SecondActivity.EXTRA_TITLE)
-            val author = data.getStringExtra(SecondActivity.EXTRA_AUTHOR)
-            val isbn = data.getLongExtra(SecondActivity.EXTRA_ISBN,0)
-            val genre = data.getStringExtra(SecondActivity.EXTRA_GENRE)
+            @Override
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                target: RecyclerView.ViewHolder): Boolean
+            {
+                return false
+            }
 
-            val book = Book(title, author, isbn, genre)
-        }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int)
+            {
+                adapter.deleteItem(viewHolder.adapterPosition)
+            }
+        }).attachToRecyclerView(recyclerView)
 
-    }*/
+        adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener
+        {
+            override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
+            {
+                val book = documentSnapshot.toObject(Book::class.java)
+                val id: String = documentSnapshot.id
+                val path: String = documentSnapshot.reference.path
+                Toast.makeText(this@MainActivity,
+                    "Position: $position, ID: $id", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 
-    /**
-     * Come back later to the video Firestore Tutorial by coding in Flow Part 8
-     * the time is around 2:59.
-     * Add the the success listeners and failure listeners for the addNote() method
-     * for you it is addBook(view: View) after notebookRef.add(note) --> bookRef.add(book)
-     *
-     *You might need the previous automatic load of data to app
-     * Just come back and rewatch the video
-     */
+    @Override
+    override fun onStart()
+    {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    @Override
+    override fun onStop()
+    {
+        super.onStop()
+        adapter.stopListening()
+    }
 }
 

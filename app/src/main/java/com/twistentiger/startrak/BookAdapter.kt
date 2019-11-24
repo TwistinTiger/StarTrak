@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.DocumentSnapshot
 
-class BookAdapter : RecyclerView.Adapter<BookAdapter.BookHolder>()
+class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAdapter<Book, BookAdapter.BookHolder>(options)
 {
-    private val books: MutableList<Book> = ArrayList()
+    //private val books: MutableList<Book> = ArrayList()
+    private lateinit var listener: OnItemClickListener
 
     @NonNull
     @Override
@@ -20,27 +24,50 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookHolder>()
         return BookHolder(itemView)
     }
 
-    override fun getItemCount(): Int
+    @NonNull
+    @Override
+    override fun onBindViewHolder(@NonNull holder: BookHolder, position: Int, @NonNull model: Book)
     {
-        return books.size
+        holder.titleView.text = model.title
+        holder.authorView.text = model.author
+        holder.genreView.text = model.genre
+        holder.isbnView.text = model.isbn.toString()
     }
 
-    override fun onBindViewHolder(holder: BookHolder, position: Int)
+    fun deleteItem(position: Int)
     {
-        val currentBook = books.get(position)
-        holder.titleView.setText(currentBook.title)
-        holder.authorView.setText(currentBook.author)
-        holder.genreView.setText(currentBook.genre)
-        //holder.isbnView.setText(currentBook.bookISBN)
+        snapshots.getSnapshot(position).reference.delete()
     }
 
-
-
-    class BookHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class BookHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         val titleView: TextView = itemView.findViewById(R.id.title_textView)
         val authorView: TextView = itemView.findViewById(R.id.author_textView)
         val genreView: TextView = itemView.findViewById(R.id.genre_textView)
         val isbnView: TextView = itemView.findViewById(R.id.isbn_textView)
+
+        init {
+            itemView.setOnClickListener(object: View.OnClickListener
+            {
+                override fun onClick(v: View?)
+                {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION)
+                    {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position)
+                    }
+                }
+            })
+        }
+    }
+
+    interface OnItemClickListener
+    {
+        fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
+    }
+
+    fun setOnItemClickListener(newListener: OnItemClickListener)
+    {
+        this.listener = newListener
     }
 }
