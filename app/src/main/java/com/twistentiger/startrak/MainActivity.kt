@@ -3,7 +3,9 @@ package com.twistentiger.startrak
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,10 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
+
+/*
+import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_AUTHOR
+import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_GENRE
+import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_ISBN
+import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_TITLE
+*/
 
 class MainActivity : AppCompatActivity()
 {
@@ -32,10 +38,10 @@ class MainActivity : AppCompatActivity()
         fab = findViewById(R.id.fab)
 
         //prompts the adding of books
-        fab.setOnClickListener(View.OnClickListener {
+        fab.setOnClickListener {
             val intent = Intent(this@MainActivity, SecondActivity::class.java)
             this@MainActivity.startActivity(intent)
-        })
+        }
 
         setUpRecyclerView()
     }
@@ -75,15 +81,74 @@ class MainActivity : AppCompatActivity()
 
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener
         {
+
+            /**
+             * For this, I need to implement an edit data algorithm
+             * The loading to recylcerview algorithm might be better
+             * Work on this tomorrow
+             *
+             * Goodnight Sir Robin
+             */
+
             override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
             {
                 val book = documentSnapshot.toObject(Book::class.java)
                 val id: String = documentSnapshot.id
-                val path: String = documentSnapshot.reference.path
+                //val path: String = documentSnapshot.reference.path
+                val actualPosition = position + 1
+
                 Toast.makeText(this@MainActivity,
-                    "Position: $position, ID: $id", Toast.LENGTH_SHORT).show()
+                    "Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
             }
+
+            /*override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
+            {
+                val editIntent = Intent(this@MainActivity, SecondActivity::class.java)
+                val book = documentSnapshot.toObject(Book::class.java)
+
+                if (book != null)
+                {
+                    editIntent.putExtra(EXTRA_TITLE, book.title)
+                    editIntent.putExtra(EXTRA_AUTHOR, book.author)
+                    editIntent.putExtra(EXTRA_ISBN, book.isbn)
+                    editIntent.putExtra(EXTRA_GENRE,book.genre)
+                    startActivityForResult(editIntent, )
+                }
+                //val id: String = documentSnapshot.id
+                //val path: String = documentSnapshot.reference.path
+                //val actualPosition = position + 1
+
+                //Toast.makeText(this@MainActivity,
+                    //"Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
+            }*/
         })
+    }
+
+    private fun logOut()
+    {
+        Toast.makeText(this,
+            "Logout clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    @Override
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    @Override
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
+    {
+        return when (item.itemId)
+        {
+            R.id.delete_all_books -> {
+               logOut()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @Override

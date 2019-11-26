@@ -1,9 +1,12 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
+// Apply the Performance Monitoring plugin
+apply plugin: 'com.google.firebase.firebase-perf'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -37,4 +40,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
+
+    // Add the dependency for the Performance Monitoring library
+    implementation 'com.google.firebase:firebase-perf:19.0.2'
 }

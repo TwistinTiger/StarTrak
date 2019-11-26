@@ -12,7 +12,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAdapter<Book, BookAdapter.BookHolder>(options)
 {
-    //private val books: MutableList<Book> = ArrayList()
     private lateinit var listener: OnItemClickListener
 
     @NonNull
@@ -39,6 +38,14 @@ class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAd
         snapshots.getSnapshot(position).reference.delete()
     }
 
+    /**
+     * Just experiementing with the update function
+
+    fun updateItem(position: Int)
+    {
+        snapshots.getSnapshot(position).reference.update()
+    }*/
+
     inner class BookHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         val titleView: TextView = itemView.findViewById(R.id.title_textView)
@@ -47,17 +54,12 @@ class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAd
         val isbnView: TextView = itemView.findViewById(R.id.isbn_textView)
 
         init {
-            itemView.setOnClickListener(object: View.OnClickListener
-            {
-                override fun onClick(v: View?)
-                {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION)
-                    {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position)
-                    }
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(snapshots.getSnapshot(position), position)
                 }
-            })
+            }
         }
     }
 

@@ -11,12 +11,18 @@ import com.google.firebase.firestore.*
 
 class SecondActivity : AppCompatActivity()
 {
+    //trying to see what can be broken
+    /*companion object{
+        const val EXTRA_TITLE: String = "com.twistentiger.startrak.EXTRA_TITLE"
+        const val EXTRA_AUTHOR: String = "com.twistentiger.startrak.EXTRA_AUTHOR"
+        const val EXTRA_ISBN: String = "com.twistentiger.startrak.EXTRA_ISBN"
+        const val EXTRA_GENRE: String = "com.twistentiger.startrak.EXTRA_GENRE"
+    }*/
+
     private lateinit var titleEdit: TextInputEditText
     private lateinit var authorEdit: TextInputEditText
     private lateinit var isbnEdit: TextInputEditText
     private lateinit var genreEdit: TextInputEditText
-
-    private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -37,7 +43,7 @@ class SecondActivity : AppCompatActivity()
      * This method saves the book to the database
      * Sends the results back to the MainActivity into recyclerview
      */
-    private fun addBook()
+    private fun saveBook()
     {
         //Might add a try catch error
         val title: String = titleEdit.text.toString()
@@ -91,7 +97,7 @@ class SecondActivity : AppCompatActivity()
         return when (item.itemId)
         {
             R.id.saveInfo -> {
-                addBook()
+                saveBook()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
