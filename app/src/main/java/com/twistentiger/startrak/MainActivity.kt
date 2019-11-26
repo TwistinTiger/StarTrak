@@ -101,6 +101,9 @@ class MainActivity : AppCompatActivity()
                     "Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
             }
 
+            /**
+             * TODO("We still need an edit function")
+             */
             /*override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
             {
                 val editIntent = Intent(this@MainActivity, SecondActivity::class.java)
@@ -124,6 +127,9 @@ class MainActivity : AppCompatActivity()
         })
     }
 
+    /**
+     * TODO("Implement a logout Activity")
+     */
     private fun logOut()
     {
         Toast.makeText(this,

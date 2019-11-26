@@ -23,6 +23,7 @@ class SecondActivity : AppCompatActivity()
     private lateinit var authorEdit: TextInputEditText
     private lateinit var isbnEdit: TextInputEditText
     private lateinit var genreEdit: TextInputEditText
+    private lateinit var notesEdit: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -37,6 +38,7 @@ class SecondActivity : AppCompatActivity()
         authorEdit = findViewById(R.id.author_editText)
         isbnEdit = findViewById(R.id.isbn_editText)
         genreEdit = findViewById(R.id.genre_editText)
+        notesEdit = findViewById(R.id.notes_editText)
     }
 
     /**
@@ -50,6 +52,7 @@ class SecondActivity : AppCompatActivity()
         val author: String = authorEdit.text.toString()
         val isbn: Long = isbnEdit.text.toString().toLong()
         val genre: String = genreEdit.text.toString()
+        val notes: String = notesEdit.text.toString()
 
         if(title.trim().isEmpty())
         {
@@ -77,7 +80,7 @@ class SecondActivity : AppCompatActivity()
 
         val bookReference: CollectionReference = FirebaseFirestore.getInstance()
             .collection("The Book")
-        bookReference.add(Book(title, author, isbn, genre))
+        bookReference.add(Book(title, author, isbn, genre, notes))
         Toast.makeText(this, "Book saved", Toast.LENGTH_SHORT).show()
 
         finish()

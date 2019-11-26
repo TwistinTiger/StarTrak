@@ -31,6 +31,7 @@ class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAd
         holder.authorView.text = model.author
         holder.genreView.text = model.genre
         holder.isbnView.text = model.isbn.toString()
+        holder.notesView.text = model.notes
     }
 
     fun deleteItem(position: Int)
@@ -52,6 +53,7 @@ class BookAdapter(options: FirestoreRecyclerOptions<Book>) : FirestoreRecyclerAd
         val authorView: TextView = itemView.findViewById(R.id.author_textView)
         val genreView: TextView = itemView.findViewById(R.id.genre_textView)
         val isbnView: TextView = itemView.findViewById(R.id.isbn_textView)
+        val notesView: TextView = itemView.findViewById(R.id.notes_textView)
 
         init {
             itemView.setOnClickListener {
