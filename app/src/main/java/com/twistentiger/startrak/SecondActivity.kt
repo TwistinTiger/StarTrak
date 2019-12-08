@@ -11,14 +11,6 @@ import com.google.firebase.firestore.*
 
 class SecondActivity : AppCompatActivity()
 {
-    //trying to see what can be broken
-    /*companion object{
-        const val EXTRA_TITLE: String = "com.twistentiger.startrak.EXTRA_TITLE"
-        const val EXTRA_AUTHOR: String = "com.twistentiger.startrak.EXTRA_AUTHOR"
-        const val EXTRA_ISBN: String = "com.twistentiger.startrak.EXTRA_ISBN"
-        const val EXTRA_GENRE: String = "com.twistentiger.startrak.EXTRA_GENRE"
-    }*/
-
     private lateinit var titleEdit: TextInputEditText
     private lateinit var authorEdit: TextInputEditText
     private lateinit var isbnEdit: TextInputEditText
@@ -47,43 +39,38 @@ class SecondActivity : AppCompatActivity()
      */
     private fun saveBook()
     {
-        //Might add a try catch error
-        val title: String = titleEdit.text.toString()
-        val author: String = authorEdit.text.toString()
-        val isbn: Long = isbnEdit.text.toString().toLong()
-        val genre: String = genreEdit.text.toString()
-        val notes: String = notesEdit.text.toString()
-
-        if(title.trim().isEmpty())
+        try
         {
-            titleEdit.error = "Required"
-            return
+            val title: String = titleEdit.text.toString()
+            val author: String = authorEdit.text.toString()
+            val isbn: Long = isbnEdit.text.toString().toLong()
+            val genre: String = genreEdit.text.toString()
+            val notes: String = notesEdit.text.toString()
+
+            if(title.trim().isEmpty())
+            {
+                titleEdit.error = "Required"
+                return
+            }
+
+            if(author.trim().isEmpty())
+            {
+                authorEdit.error = "Required"
+                return
+            }
+
+            val bookReference: CollectionReference = FirebaseFirestore.getInstance()
+                .collection("The Book")
+            bookReference.add(Book(title, author, isbn, genre, notes))
+            Toast.makeText(this, "Book saved", Toast.LENGTH_SHORT).show()
+
+            finish()
         }
-
-        if(author.trim().isEmpty())
+        catch(e: Exception)
         {
-            authorEdit.error = "Required"
-            return
+            Toast.makeText(this, "Input the ISBN",
+                Toast.LENGTH_LONG).show()
         }
-
-        //try find solution to this
-
-        /**
-         *This is where we left off. come back here and we'll work on it.
-         * Enjoy you game sir Robin.
-         */
-        /*if(isbn.trim().isEmpty() )
-        {
-            isbnEdit.error = "Required"
-            return
-        }*/
-
-        val bookReference: CollectionReference = FirebaseFirestore.getInstance()
-            .collection("The Book")
-        bookReference.add(Book(title, author, isbn, genre, notes))
-        Toast.makeText(this, "Book saved", Toast.LENGTH_SHORT).show()
-
-        finish()
     }
 
     @Override

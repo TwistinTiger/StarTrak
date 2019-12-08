@@ -7,27 +7,18 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.*
-
-/*
-import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_AUTHOR
-import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_GENRE
-import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_ISBN
-import com.twistentiger.startrak.SecondActivity.Companion.EXTRA_TITLE
-*/
+import com.getbase.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity()
 {
     private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val bookStorageRef: CollectionReference = database.collection("The Book")
 
-    private lateinit var fab: FloatingActionButton
     private lateinit var adapter: BookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -35,15 +26,24 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fab = findViewById(R.id.fab)
-
         //prompts the adding of books
-        fab.setOnClickListener {
+        val fabAddingBook: FloatingActionButton = findViewById(R.id.fab_action1)
+        fabAddingBook.setOnClickListener{
             val intent = Intent(this@MainActivity, SecondActivity::class.java)
             this@MainActivity.startActivity(intent)
         }
 
+        val fab2: FloatingActionButton = findViewById(R.id.fab_action2)
+        fab2.setOnClickListener{
+            showToast("fab 2 toast in the house")
+        }
+
         setUpRecyclerView()
+    }
+
+    private fun showToast(message: String)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setUpRecyclerView()
@@ -81,15 +81,6 @@ class MainActivity : AppCompatActivity()
 
         adapter.setOnItemClickListener(object: BookAdapter.OnItemClickListener
         {
-
-            /**
-             * For this, I need to implement an edit data algorithm
-             * The loading to recylcerview algorithm might be better
-             * Work on this tomorrow
-             *
-             * Goodnight Sir Robin
-             */
-
             override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
             {
                 val book = documentSnapshot.toObject(Book::class.java)
@@ -100,30 +91,6 @@ class MainActivity : AppCompatActivity()
                 Toast.makeText(this@MainActivity,
                     "Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
             }
-
-            /**
-             * TODO("We still need an edit function")
-             */
-            /*override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
-            {
-                val editIntent = Intent(this@MainActivity, SecondActivity::class.java)
-                val book = documentSnapshot.toObject(Book::class.java)
-
-                if (book != null)
-                {
-                    editIntent.putExtra(EXTRA_TITLE, book.title)
-                    editIntent.putExtra(EXTRA_AUTHOR, book.author)
-                    editIntent.putExtra(EXTRA_ISBN, book.isbn)
-                    editIntent.putExtra(EXTRA_GENRE,book.genre)
-                    startActivityForResult(editIntent, )
-                }
-                //val id: String = documentSnapshot.id
-                //val path: String = documentSnapshot.reference.path
-                //val actualPosition = position + 1
-
-                //Toast.makeText(this@MainActivity,
-                    //"Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
-            }*/
         })
     }
 
