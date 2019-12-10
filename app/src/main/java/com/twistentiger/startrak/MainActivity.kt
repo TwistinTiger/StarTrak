@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity()
         recyclerView.setHasFixedSize(true)
 
         //for now we use linear layout
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = GridLayoutManager(this,2)
         recyclerView.adapter = adapter
 
         ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0,

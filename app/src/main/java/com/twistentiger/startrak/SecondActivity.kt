@@ -68,8 +68,8 @@ class SecondActivity : AppCompatActivity()
         }
         catch(e: Exception)
         {
-            Toast.makeText(this, "Input the ISBN",
-                Toast.LENGTH_LONG).show()
+            isbnEdit.error = "Required"
+            return
         }
     }
 
