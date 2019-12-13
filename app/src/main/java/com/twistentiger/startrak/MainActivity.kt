@@ -34,9 +34,10 @@ class MainActivity : AppCompatActivity()
             this@MainActivity.startActivity(intent)
         }
 
+        //testing the login activity here with the button provided
         val fab2: FloatingActionButton = findViewById(R.id.fab_action2)
         fab2.setOnClickListener{
-            showToast("fab 2 toast in the house")
+            showToast("Major progress")
         }
 
         setUpRecyclerView()

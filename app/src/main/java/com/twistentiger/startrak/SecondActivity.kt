@@ -50,12 +50,14 @@ class SecondActivity : AppCompatActivity()
             if(title.trim().isEmpty())
             {
                 titleEdit.error = "Required"
+                titleEdit.requestFocus()
                 return
             }
 
             if(author.trim().isEmpty())
             {
                 authorEdit.error = "Required"
+                authorEdit.requestFocus()
                 return
             }
 
@@ -69,6 +71,7 @@ class SecondActivity : AppCompatActivity()
         catch(e: Exception)
         {
             isbnEdit.error = "Required"
+            isbnEdit.requestFocus()
             return
         }
     }
