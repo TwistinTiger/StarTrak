@@ -6,4 +6,12 @@
         android:title="Logout"
         app:showAsAction="never"
         android:icon="@drawable/ic_lock_outline"/>
+
+    <item
+        android:id="@+id/search_books"
+        android:title="Search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
 </menu>
