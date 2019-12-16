@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.*
@@ -101,8 +100,8 @@ class MainActivity : AppCompatActivity()
      */
     private fun logOut()
     {
-        Toast.makeText(this,
-            "Logout clicked", Toast.LENGTH_SHORT).show()
+        val logoutIntent = Intent(this@MainActivity, SignInActivity::class.java)
+        this@MainActivity.startActivity(logoutIntent)
     }
 
     @Override
