@@ -7,6 +7,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 
 class SecondActivity : AppCompatActivity()
@@ -64,7 +66,12 @@ class SecondActivity : AppCompatActivity()
             val bookReference: CollectionReference = FirebaseFirestore.getInstance()
                 .collection("The Book")
             bookReference.add(Book(title, author, isbn, genre, notes))
-            Toast.makeText(this, "Book saved", Toast.LENGTH_SHORT).show()
+                .addOnCompleteListener {
+                    Toast.makeText(this, "Book saved awesome", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Book not saved", Toast.LENGTH_SHORT).show()
+                }
 
             finish()
         }
