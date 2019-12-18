@@ -8,11 +8,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class SignInActivity : AppCompatActivity()
 {
@@ -79,24 +77,40 @@ class SignInActivity : AppCompatActivity()
 
         progressBar.visibility = View.VISIBLE
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(object: OnCompleteListener<AuthResult>
-            {
-                override fun onComplete(task: Task<AuthResult>)
+            .addOnCompleteListener(this) { task ->
+                progressBar.visibility = View.GONE
+
+                //if the task is successful we login
+                //else we get a fail message
+                if(task.isSuccessful)
                 {
-                    progressBar.visibility = View.GONE
-                    if(task.isSuccessful)
-                    {
-                        val signIntent = Intent(this@SignInActivity,
-                            MainActivity::class.java)
-                        signIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        this@SignInActivity.startActivity(signIntent)
-                    }
-                    else
-                    {
-                        Toast.makeText(applicationContext,
-                            task.exception!!.message, Toast.LENGTH_SHORT).show()
-                    }
+                    val user = mAuth.currentUser
+                    updateUI(user)
                 }
-            })
+                else
+                {
+                    Toast.makeText(applicationContext,
+                        task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?)
+    {
+        //if the user is not null we move to activity
+        //else get. there must be an else
+        if(user != null)
+        {
+            val signIntent = Intent(this@SignInActivity,
+                MainActivity::class.java)
+            signIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            this@SignInActivity.startActivity(signIntent)
+        }
+        else
+        {
+            Toast.makeText(applicationContext,
+                "User doesn't exist", Toast.LENGTH_SHORT).show()
+        }
     }
 }
