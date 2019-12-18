@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseUser
 
 class SignUpActivity : AppCompatActivity()
 {
@@ -79,15 +80,13 @@ class SignUpActivity : AppCompatActivity()
         progressBar.visibility = View.VISIBLE
 
         mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
+            .addOnCompleteListener(this){ task ->
 
                 progressBar.visibility = View.GONE
                 if(task.isSuccessful)
                 {
-                    val signUpIntent = Intent(this@SignUpActivity,
-                        MainActivity::class.java)
-                    signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    this@SignUpActivity.startActivity(signUpIntent)
+                    val user = mAuth.currentUser
+                    updateUI(user)
                 }
                 else
                 {
@@ -98,9 +97,26 @@ class SignUpActivity : AppCompatActivity()
                     }
                     else
                     {
-                        Toast.makeText(applicationContext, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,
+                            task.exception!!.message, Toast.LENGTH_SHORT).show()
+
+                        updateUI(null)
                     }
                 }
             }
+    }
+
+    private fun updateUI(user: FirebaseUser?)
+    {
+        //if the user is not null we move to activity
+        //else get. there must be an else
+        if(user != null)
+        {
+            val signUpIntent = Intent(this@SignUpActivity,
+                MainActivity::class.java)
+
+            signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            this@SignUpActivity.startActivity(signUpIntent)
+        }
     }
 }
