@@ -99,7 +99,7 @@ class SignInActivity : AppCompatActivity()
     private fun updateUI(user: FirebaseUser?)
     {
         //if the user is not null we move to activity
-        //else get. there must be an else
+        //else show error that user doesn't exist or is disabled
         if(user != null)
         {
             val signIntent = Intent(this@SignInActivity,
@@ -110,7 +110,9 @@ class SignInActivity : AppCompatActivity()
         else
         {
             Toast.makeText(applicationContext,
-                "User doesn't exist", Toast.LENGTH_SHORT).show()
+                "User doesn't exist or User is disabled", Toast.LENGTH_LONG).show()
         }
+
+        //need to work on a user is disabled function
     }
 }

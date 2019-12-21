@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 
 class SecondActivity : AppCompatActivity()
@@ -63,9 +62,15 @@ class SecondActivity : AppCompatActivity()
                 return
             }
 
-            val bookReference: CollectionReference = FirebaseFirestore.getInstance()
-                .collection("The Book")
-            bookReference.add(Book(title, author, isbn, genre, notes))
+            //getting user ID
+            val userId: String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+            //saving book to database using that same collected user ID
+            val userCollectionData: FirebaseFirestore = FirebaseFirestore.getInstance()
+            userCollectionData.collection("userData")
+                .document(userId) //using user ID to for unique users
+                .collection("Books")
+                .add(Book(title, author, isbn, genre, notes))
                 .addOnCompleteListener {
                     Toast.makeText(this, "Book saved awesome", Toast.LENGTH_SHORT).show()
                 }

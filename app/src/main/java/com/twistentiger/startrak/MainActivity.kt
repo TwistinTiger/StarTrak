@@ -13,11 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.*
 import com.getbase.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity()
 {
+    //getting user ID to display their individual data
+    private val userId: String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
     private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val bookStorageRef: CollectionReference = database.collection("The Book")
+    private val bookStorageRef: CollectionReference = database
+        .collection("userData")
+        .document(userId)
+        .collection("Books")
+    //private val bookStorageRef: CollectionReference = database.collection("Books")
 
     private lateinit var adapter: BookAdapter
 
@@ -33,7 +41,10 @@ class MainActivity : AppCompatActivity()
             this@MainActivity.startActivity(intent)
         }
 
-        //testing the login activity here with the button provided
+        /**
+         * Need an easier way to add books to database by scanning ISBN or ML scan book
+         * TODO(Activity to scan book)
+         */
         val fab2: FloatingActionButton = findViewById(R.id.fab_action2)
         fab2.setOnClickListener{
             showToast("Major progress")
