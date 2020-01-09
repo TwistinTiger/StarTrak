@@ -34,7 +34,7 @@ class SignInActivity : AppCompatActivity()
         val loginBtn: Button = findViewById(R.id.login_button)
 
         loginBtn.setOnClickListener {
-            userLogin()
+            userSignInWithEmailAndPassword()
         }
 
         signUpPrompt.setOnClickListener {
@@ -44,7 +44,7 @@ class SignInActivity : AppCompatActivity()
         }
     }
 
-    private fun userLogin()
+    private fun  userSignInWithEmailAndPassword()
     {
         val email: String =  emailEdit.text.toString().trim()
         val password: String = passwordEdit.text.toString().trim()
@@ -112,7 +112,6 @@ class SignInActivity : AppCompatActivity()
             Toast.makeText(applicationContext,
                 "User doesn't exist or User is disabled", Toast.LENGTH_LONG).show()
         }
-
         //need to work on a user is disabled function
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SecondActivity"
-    android:background="@color/mainActivityBackground"
+    android:background="@drawable/inputscreen"
     android:padding="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
