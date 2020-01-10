@@ -9,10 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".SignUpActivity">
-        </activity>
-
+        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
         <activity
             android:name=".SignInActivity"
             android:launchMode="singleTop">
@@ -22,15 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SecondActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
-
-        <activity
-            android:name=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

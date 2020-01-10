@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity()
         .collection("userData")
         .document(userId)
         .collection("Books")
-    //private val bookStorageRef: CollectionReference = database.collection("Books")
 
     private lateinit var adapter: BookAdapter
 
@@ -99,6 +98,14 @@ class MainActivity : AppCompatActivity()
                 val id: String = documentSnapshot.id
                 //val path: String = documentSnapshot.reference.path
                 val actualPosition = position + 1
+
+                /**
+                 * Update phase begins here, but all good we have the VCS working
+                 */
+                val updateIntent = Intent(this@MainActivity,
+                    UpdateActivity::class.java) // update that starts the update phase of app
+                updateIntent.putExtra("book", book) // passing book object through intent
+                this@MainActivity.startActivity(updateIntent) // starting activity
 
                 Toast.makeText(this@MainActivity,
                     "Position: $actualPosition, ID: $id", Toast.LENGTH_SHORT).show()
