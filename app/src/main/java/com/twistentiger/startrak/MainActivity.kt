@@ -96,15 +96,13 @@ class MainActivity : AppCompatActivity()
             {
                 val book = documentSnapshot.toObject(Book::class.java)
                 val id: String = documentSnapshot.id
-                //val path: String = documentSnapshot.reference.path
                 val actualPosition = position + 1
-
-                /**
-                 * Update phase begins here, but all good we have the VCS working
-                 */
                 val updateIntent = Intent(this@MainActivity,
                     UpdateActivity::class.java) // update that starts the update phase of app
+
                 updateIntent.putExtra("book", book) // passing book object through intent
+                updateIntent.putExtra("bookId", id) //passing book id through intent
+
                 this@MainActivity.startActivity(updateIntent) // starting activity
 
                 Toast.makeText(this@MainActivity,
@@ -113,9 +111,6 @@ class MainActivity : AppCompatActivity()
         })
     }
 
-    /**
-     * TODO("Implement a logout Activity")
-     */
     private fun logOut()
     {
         val logoutIntent = Intent(this@MainActivity, SignInActivity::class.java)
