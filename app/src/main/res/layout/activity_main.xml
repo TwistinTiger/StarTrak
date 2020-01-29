@@ -22,14 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="28dp"
-        app:fab_addButtonColorNormal="@color/pink"
-        app:fab_addButtonColorPressed="@color/pink_pressed"
+        app:fab_addButtonColorNormal="@color/colorPrimaryDark"
+        app:fab_addButtonColorPressed="@color/colorPrimary"
         app:fab_addButtonPlusIconColor="@color/white"
         app:fab_labelStyle="@style/custom_fab">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_action1"
-            app:fab_title="Fab Action 1"
+            app:fab_title="Add book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/white"

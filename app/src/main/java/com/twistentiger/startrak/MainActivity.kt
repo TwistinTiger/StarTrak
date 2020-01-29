@@ -42,11 +42,12 @@ class MainActivity : AppCompatActivity()
 
         /**
          * Need an easier way to add books to database by scanning ISBN or ML scan book
+         * Might need to open a browser app and get the data from the internet that way we don't type the whole book
          * TODO(Activity to scan book)
          */
         val fab2: FloatingActionButton = findViewById(R.id.fab_action2)
         fab2.setOnClickListener{
-            showToast("Major progress")
+            showToast("Up coming feature")
         }
 
         setUpRecyclerView()
@@ -150,6 +151,14 @@ class MainActivity : AppCompatActivity()
     {
         super.onStop()
         adapter.stopListening()
+    }
+
+    @Override
+    override fun onBackPressed()
+    {
+        val intentWhenBackPressed = Intent(this@MainActivity, SignInActivity::class.java)
+        this@MainActivity.startActivity(intentWhenBackPressed)
+        super.onBackPressed()
     }
 }
 
