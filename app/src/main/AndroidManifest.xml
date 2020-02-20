@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.twistentiger.startrak">
 
     <application
@@ -8,22 +9,31 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".UpdateActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity
-            android:name=".SignInActivity"
-            android:launchMode="singleTop">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <!--Launcher Activity, theme is set for NoActionBar -->
+        <activity android:name=".LauncherActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignInActivity"/>
+        <activity android:name=".MainActivity" />
+
         <activity
             android:name=".SecondActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"
+            />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -157,6 +157,7 @@ class MainActivity : AppCompatActivity()
     override fun onBackPressed()
     {
         val intentWhenBackPressed = Intent(this@MainActivity, SignInActivity::class.java)
+        intentWhenBackPressed.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) //clearing flags to sort issues or security
         this@MainActivity.startActivity(intentWhenBackPressed)
         super.onBackPressed()
     }
