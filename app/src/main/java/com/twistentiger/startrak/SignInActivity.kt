@@ -8,16 +8,24 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 
 class SignInActivity : AppCompatActivity()
 {
     private lateinit var emailEdit: TextInputEditText
     private lateinit var passwordEdit: TextInputEditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var gSigInButton: SignInButton
 
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -28,10 +36,20 @@ class SignInActivity : AppCompatActivity()
         emailEdit = findViewById(R.id.emailSignIn_editText)
         passwordEdit = findViewById(R.id.passwordSignIn_editText)
         progressBar = findViewById(R.id.signIn_progressBar)
-        mAuth = FirebaseAuth.getInstance()
+        gSigInButton = findViewById(R.id.googleSignIn_button)
 
         val signUpPrompt: Button = findViewById(R.id.signUp_promptButton)
         val loginBtn: Button = findViewById(R.id.login_button)
+
+        //Start google config_signin
+        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        //End config_signin
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        mAuth = FirebaseAuth.getInstance()
 
         loginBtn.setOnClickListener {
             userSignInWithEmailAndPassword()
@@ -41,6 +59,36 @@ class SignInActivity : AppCompatActivity()
             val signUpPromptIntent = Intent(this@SignInActivity,
                 SignUpActivity::class.java)
             this@SignInActivity.startActivity(signUpPromptIntent)
+        }
+
+        gSigInButton.setOnClickListener {
+            val googleSignIntent: Intent = mGoogleSignInClient.signInIntent
+            startActivityForResult(googleSignIntent, RC_SIGN_IN)
+        }
+
+    }
+
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN)
+        {
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try
+            {
+                val account = task.getResult(ApiException::class.java)
+                if (account != null) {
+                    userSignInWithGoogle(account)
+                }
+            }
+            catch(e: ApiException)
+            {
+                Toast.makeText(applicationContext,
+                    e.message, Toast.LENGTH_SHORT).show()
+                updateUI(null)
+            }
         }
     }
 
@@ -96,6 +144,29 @@ class SignInActivity : AppCompatActivity()
             }
     }
 
+    private fun userSignInWithGoogle(account: GoogleSignInAccount)
+    {
+        val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+        progressBar.visibility = View.VISIBLE
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                progressBar.visibility = View.GONE
+
+                if(task.isSuccessful)
+                {
+                    val user = mAuth.currentUser
+                    updateUI(user)
+                }
+                else
+                {
+                    Toast.makeText(applicationContext,
+                        task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+    }
+
     private fun updateUI(user: FirebaseUser?)
     {
         //if the user is not null we move to activity
@@ -127,5 +198,9 @@ class SignInActivity : AppCompatActivity()
         closeAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         this.startActivity(closeAppIntent)
         super.onBackPressed()
+    }
+
+    companion object{
+        const val RC_SIGN_IN:Int = 7004
     }
 }
