@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "271245844740-673qkg24fenibrqql9cueo1o4nmrpbm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.twistentiger.startrak",
+            "certificate_hash": "e8bab65c5ca98d81cbe7d51a55ae45d53b8a14fd"
+          }
+        },
+        {
           "client_id": "271245844740-tojhuqlnpq4qloct6tqp3lj2kqteb9q5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

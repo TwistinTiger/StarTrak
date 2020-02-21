@@ -114,4 +114,18 @@ class SignInActivity : AppCompatActivity()
         }
         //need to work on a user is disabled function
     }
+
+    /*
+    When user presses the back button from Signin activity
+    the app does not bring them back to the activity it shuts off
+     */
+    @Override
+    override fun onBackPressed()
+    {
+        val closeAppIntent = Intent(Intent.ACTION_MAIN)
+        closeAppIntent.addCategory(Intent.CATEGORY_HOME)
+        closeAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        this.startActivity(closeAppIntent)
+        super.onBackPressed()
+    }
 }
