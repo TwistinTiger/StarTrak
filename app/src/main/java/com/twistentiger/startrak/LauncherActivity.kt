@@ -9,7 +9,7 @@ import android.view.WindowManager
 class LauncherActivity : AppCompatActivity()
 {
     companion object{
-        const val SPLASH_SCREEN: Long = 2500 //setting 2.5 secs till switch
+        const val SPLASH_SCREEN: Long = 1700 //setting 1.7secs till switch
     }
 
     override fun onCreate(savedInstanceState: Bundle?)

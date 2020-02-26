@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">StarTrak</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="isbn">ISBN</string>
+    <string name="genre">Genre</string>
+    <string name="notes">Notes</string>
+    <string name="todo">TODO</string>
+    <string name="update_title">Title</string>
+    <string name="update_author">Author</string>
+    <string name="update_isbn">ISBN</string>
+    <string name="update_genre">Genre</string>
+    <string name="update_notes">Notes</string>
+    <string name="signin_email">Email</string>
+    <string name="signin_password">Password</string>
+    <string name="no_account_setup">Dont have an account? Sign Up</string>
+    <string name="signin_login">Login</string>
+    <string name="signin_todo">TODO</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_sign_up">Sign Up</string>
+    <string name="account_all_set">Already have an account? Login</string>
 </resources>

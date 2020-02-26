@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SecondActivity"
-    android:background="@drawable/inputscreen"
+    android:background="@drawable/input"
     android:padding="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -19,7 +19,8 @@
             android:id="@+id/title_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title"
+            android:inputType="textCapSentences"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -34,7 +35,8 @@
             android:id="@+id/author_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author" />
+            android:hint="@string/author"
+            android:inputType="textCapSentences"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -49,7 +51,7 @@
             android:id="@+id/isbn_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ISBN"
+            android:hint="@string/isbn"
             android:inputType="number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +67,8 @@
             android:id="@+id/genre_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Genre" />
+            android:hint="@string/genre"
+            android:inputType="textCapSentences"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,8 +83,8 @@
             android:id="@+id/notes_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Notes"
-            android:inputType="textMultiLine"/>
+            android:hint="@string/notes"
+            android:inputType="textMultiLine|textCapSentences"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

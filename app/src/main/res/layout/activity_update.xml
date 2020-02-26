@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".UpdateActivity"
-android:background="@drawable/naturegift"
+android:background="@drawable/update_activity"
 android:padding="8dp">
 
 <com.google.android.material.textfield.TextInputLayout
@@ -19,7 +19,8 @@ android:padding="8dp">
         android:id="@+id/title_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title" />
+        android:hint="@string/update_title"
+        android:inputType="textCapSentences"/>
 </com.google.android.material.textfield.TextInputLayout>
 
 <com.google.android.material.textfield.TextInputLayout
@@ -34,7 +35,8 @@ android:padding="8dp">
         android:id="@+id/author_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Author" />
+        android:hint="@string/update_author"
+        android:inputType="textCapSentences"/>
 </com.google.android.material.textfield.TextInputLayout>
 
 <com.google.android.material.textfield.TextInputLayout
@@ -49,7 +51,7 @@ android:padding="8dp">
         android:id="@+id/isbn_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ISBN"
+        android:hint="@string/update_isbn"
         android:inputType="number"/>
 </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +67,8 @@ android:padding="8dp">
         android:id="@+id/genre_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Genre" />
+        android:hint="@string/update_genre"
+        android:inputType="textCapSentences"/>
 </com.google.android.material.textfield.TextInputLayout>
 
 <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +83,7 @@ android:padding="8dp">
         android:id="@+id/notes_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notes"
+        android:hint="@string/update_notes"
         android:inputType="textMultiLine|textCapSentences"/>
 </com.google.android.material.textfield.TextInputLayout>
 

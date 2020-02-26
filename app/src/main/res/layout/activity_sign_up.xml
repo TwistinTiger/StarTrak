@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/launcher"
     tools:context=".SignInActivity">
 
     <RelativeLayout
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            />
+            android:contentDescription="@string/todo" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,8 +44,9 @@
                     android:id="@+id/emailSignUp_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:inputType="textEmailAddress"
-                    android:hint="Email" />
+                    android:hint="@string/signup_email" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="Password" />
+                    android:textColor="@color/white"
+                    android:hint="@string/signup_password" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -68,8 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Sign Up"/>
+                android:text="@string/signup_sign_up"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signIn_promptButton"
@@ -77,8 +81,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Already have an account? Login"
+                android:text="@string/account_all_set"
                 />
 
         </LinearLayout>
