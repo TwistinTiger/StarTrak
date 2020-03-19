@@ -8,11 +8,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.NonNull
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 
+@Suppress("NAME_SHADOWING")
 class SignUpActivity : AppCompatActivity()
 {
     private lateinit var emailEdit: TextInputEditText
@@ -81,19 +85,29 @@ class SignUpActivity : AppCompatActivity()
 
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){ task ->
-
                 progressBar.visibility = View.GONE
-                if(task.isSuccessful)
+                if(task.isSuccessful) //if task is successful, do the following code
                 {
-                    val user = mAuth.currentUser
-                    updateUI(user)
+                    //send verification email when successful
+                    mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener{task ->
+                        if(task.isSuccessful)
+                        {
+                            val user = mAuth.currentUser
+                            updateUI(user)
+                            Toast.makeText(applicationContext, "Registration Successful. Check email for verification", Toast.LENGTH_LONG).show()
+                        }
+                        else
+                        {
+                            Toast.makeText(applicationContext, task.exception?.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
                 else
                 {
                     if(task.exception is FirebaseAuthUserCollisionException)
                     {
                         Toast.makeText(applicationContext,
-                            "Already registered", Toast.LENGTH_SHORT).show()
+                            "This account already exists", Toast.LENGTH_SHORT).show()
                     }
                     else
                     {
@@ -117,6 +131,11 @@ class SignUpActivity : AppCompatActivity()
 
             signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this@SignUpActivity.startActivity(signUpIntent)
+        }
+        else
+        {
+            Toast.makeText(applicationContext,
+                "Invalid operation contact developer at twistentiger@gmail.com ", Toast.LENGTH_LONG).show()
         }
     }
 }

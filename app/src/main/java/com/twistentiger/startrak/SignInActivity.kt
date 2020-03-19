@@ -132,8 +132,18 @@ class SignInActivity : AppCompatActivity()
                 //else we get a fail message
                 if(task.isSuccessful)
                 {
-                    val user = mAuth.currentUser
-                    updateUI(user)
+                    //check if the user has verified their email
+                    if(mAuth.currentUser!!.isEmailVerified)
+                    {
+                        val user = mAuth.currentUser
+                        updateUI(user)
+                    }
+                    else
+                    {
+                        Toast.makeText(applicationContext, "Please verify your email address, to login", Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
+
                 }
                 else
                 {
@@ -177,11 +187,6 @@ class SignInActivity : AppCompatActivity()
                 MainActivity::class.java)
             signIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             this@SignInActivity.startActivity(signIntent)
-        }
-        else
-        {
-            Toast.makeText(applicationContext,
-                "User doesn't exist or User is disabled", Toast.LENGTH_LONG).show()
         }
         //need to work on a user is disabled function
     }
