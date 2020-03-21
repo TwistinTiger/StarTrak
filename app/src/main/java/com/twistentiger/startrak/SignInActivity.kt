@@ -23,7 +23,7 @@ class SignInActivity : AppCompatActivity()
     private lateinit var emailEdit: TextInputEditText
     private lateinit var passwordEdit: TextInputEditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var gSigInButton: SignInButton
+    private lateinit var googleSignInButton: SignInButton
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mAuth: FirebaseAuth
@@ -36,17 +36,17 @@ class SignInActivity : AppCompatActivity()
         emailEdit = findViewById(R.id.emailSignIn_editText)
         passwordEdit = findViewById(R.id.passwordSignIn_editText)
         progressBar = findViewById(R.id.signIn_progressBar)
-        gSigInButton = findViewById(R.id.googleSignIn_button)
+        googleSignInButton = findViewById(R.id.googleSignIn_button)
 
         val signUpPrompt: Button = findViewById(R.id.signUp_promptButton)
         val loginBtn: Button = findViewById(R.id.login_button)
 
-        //Start google config_signin
+        //Start google config_signIn
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        //End config_signin
+        //End config_signIn
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         mAuth = FirebaseAuth.getInstance()
@@ -61,7 +61,7 @@ class SignInActivity : AppCompatActivity()
             this@SignInActivity.startActivity(signUpPromptIntent)
         }
 
-        gSigInButton.setOnClickListener {
+        googleSignInButton.setOnClickListener {
             val googleSignIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(googleSignIntent, RC_SIGN_IN)
         }
@@ -79,14 +79,17 @@ class SignInActivity : AppCompatActivity()
             try
             {
                 val account = task.getResult(ApiException::class.java)
-                if (account != null) {
+
+                if (account != null)
+                {
                     userSignInWithGoogle(account)
                 }
             }
             catch(e: ApiException)
             {
-                Toast.makeText(applicationContext,
-                    e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, e.message,
+                    Toast.LENGTH_SHORT).show()
+
                 updateUI(null)
             }
         }
@@ -135,12 +138,14 @@ class SignInActivity : AppCompatActivity()
                     //check if the user has verified their email
                     if(mAuth.currentUser!!.isEmailVerified)
                     {
-                        val user = mAuth.currentUser
-                        updateUI(user)
+                        updateUI(mAuth.currentUser)
                     }
                     else
                     {
-                        Toast.makeText(applicationContext, "Please verify your email address, to login", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,
+                            "Please verify your email address, to login",
+                            Toast.LENGTH_SHORT).show()
+
                         updateUI(null)
                     }
 
@@ -165,8 +170,7 @@ class SignInActivity : AppCompatActivity()
 
                 if(task.isSuccessful)
                 {
-                    val user = mAuth.currentUser
-                    updateUI(user)
+                    updateUI(mAuth.currentUser)
                 }
                 else
                 {

@@ -8,9 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -92,9 +89,11 @@ class SignUpActivity : AppCompatActivity()
                     mAuth.currentUser!!.sendEmailVerification().addOnCompleteListener{task ->
                         if(task.isSuccessful)
                         {
-                            val user = mAuth.currentUser
-                            updateUI(user)
-                            Toast.makeText(applicationContext, "Registration Successful. Check email for verification", Toast.LENGTH_LONG).show()
+                            updateUI(mAuth.currentUser)
+
+                            Toast.makeText(applicationContext,
+                                "Registration Successful. Check email for verification",
+                                Toast.LENGTH_LONG).show()
                         }
                         else
                         {
@@ -135,7 +134,8 @@ class SignUpActivity : AppCompatActivity()
         else
         {
             Toast.makeText(applicationContext,
-                "Invalid operation contact developer at twistentiger@gmail.com ", Toast.LENGTH_LONG).show()
+                "Invalid operation contact developer at twistentiger@gmail.com",
+                Toast.LENGTH_LONG).show()
         }
     }
 }
